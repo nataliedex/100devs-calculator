@@ -22,7 +22,7 @@ function clearValues() {
     firstNumber = "";
     secondNumber = "";
     currentOperation = "";
-    isFirstNumberComputer = false;
+    isFirstNumberComplete = false;
     displayScreen.innerHTML = "";
 }
 
