@@ -1,92 +1,92 @@
 // *************HTML/CSS VALUES********************
 const displayScreen = document.getElementById("display-screen");
 const buttons = document.querySelectorAll(".button");
-const number = document.querySelectorAll(".number");
-const operation = document.querySelectorAll(".operation");
+const numberButtons = document.querySelectorAll(".number");
+const operationButtons = document.querySelectorAll(".operation");
 
-const clear = document.getElementById("clear");
+const clearButton = document.getElementById("clear");
 
-let one = document.getElementById("one");
-let two = document.getElementById("two");
-let three = document.getElementById("three");
-let four = document.getElementById("four");
-let five = document.getElementById("five");
-let six = document.getElementById("six");
-let seven = document.getElementById("seven");
-let eight = document.getElementById("eight");
-let nine = document.getElementById("nine");
-let zero = document.getElementById("zero");
+// ***************VALUES***********
+let firstNumber = "";
+let secondNumber = "";
+let currentOperation = "";
+let isFirstNumberComplete = false;
 
-const equal = document.getElementById("equal");
-const addition = document.getElementById("addition");
-const subtract = document.getElementById("subtract");
-const multiply = document.getElementById("multiply");
-const divide = document.getElementById("divide");
-const decimal = document.getElementById("decimal");
-
-
-// **************NUMBERS***************
-const numbers = [
-    {name: one, value: 1},
-    {name: two, value: 2},
-    {name: three, value: 3},
-    {name: four, value: 4},
-    {name: five, value: 5},
-    {name: six, value: 6},
-    {name: seven, value: 7},
-    {name: eight, value: 8},
-    {name: nine, value: 9},
-    {name: zero, value: 0},
-    {name: decimal, value: "."},
-];
-const operators = [
-    {name: addition, value: "+"},
-    {name: subtract, value: "-"},
-    {name: multiply, value: "*"},
-    {name: divide, value: "/"},
-    {name: equal, value: "="},
-    
-];
-
-// ***************FORMULAS***********
-let total = [];
+displayScreen.innerHTML = "";
 
 clear.addEventListener("click", () => {
-    total = "";
-    displayScreen.innerHTML = total;
+    clearValues();
 });
 
-// buttons.forEach(button => {
-//     button.addEventListener("click", () => {
-        
-//         console.log(button.id);
-//     });
-// });
+function clearValues() {
+    firstNumber = "";
+    secondNumber = "";
+    currentOperation = "";
+    isFirstNumberComputer = false;
+    displayScreen.innerHTML = "";
+}
 
-function Calculation(firstValue, operation, secondValue){
-    this.firstValue = firstValue;
-    this.operation = operation;
-    this.secondValue = secondValue;
-    this.calc = function(){
-        equal.addEventListener("click", () => {
-            console.log("Calculating...");
-        });
+// ***************NUMBER HANDLER ***********************
+numberButtons.forEach(button => {
+    button.addEventListener("click", () => { 
+        const num = button.textContent;
+        if(!isFirstNumberComplete){
+            firstNumber += num;
+            displayScreen.innerHTML = firstNumber;
+        } else {
+            secondNumber += num;
+            displayScreen.innerHTML = secondNumber;
+        }                    
+    });   
+});
+
+// *************OPERATION HANDLER ******************
+operationButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const operation = button.textContent;
+
+        if(operation === "="){
+            if(firstNumber !== "" && secondNumber !== "" && currentOperation !== ""){
+                calculateResult();
+            }
+        } else {
+            if(!isFirstNumberComplete && firstNumber !== "") {
+                isFirstNumberComplete = true;
+                currentOperation = operation;
+            };
+        }
+    });
+});
+
+// ***********CALCULATE RESULT ************
+function calculateResult() {
+    let result;
+    const num1 = parseFloat(firstNumber);
+    const num2 = parseFloat(secondNumber);
+
+    switch (currentOperation) {
+        case "+":
+            result = num1 + num2;
+            break;
+        case "-":
+            result = num1 - num2;
+        break;
+        case "/":
+            result = num2 === 0 ? "Error" : num1 / num2;
+            break;
+        case "x":
+            result = num1 * num2
+        break;
+        default:
+            return;
     }
+// ********DISPLAY RESULT ******************
+    displayScreen.innerHTML = result;
+    firstNumber = result.toString();
+    secondNumber = "";
+    currentOperation = "";
+    isFirstNumberComplete = false;
 }
 
 
-    number.forEach(n => {
-        n.addEventListener("click", () => {
-            let num = n.id;
-            console.log(num);
-            let x = numbers.find(value => name === num);
-            console.log(x);
-        });
-    });
     
-
-
-
-
-
-
